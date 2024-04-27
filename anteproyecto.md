@@ -112,7 +112,7 @@ Teléfono Android con versión compatible con las librerías usadas.
 ...
 
 ## Bibliografía
-ffmpeg - https://ffmpeg.org/
-mpv - https://mpv.io/
-NewPipe - https://newpipe.net/
-Android MediaStore - https://developer.android.com/reference/android/provider/MediaStore
+ffmpeg - https://ffmpeg.org/   
+mpv - https://mpv.io/   
+NewPipe - https://newpipe.net/   
+Android MediaStore - https://developer.android.com/reference/android/provider/MediaStore    
