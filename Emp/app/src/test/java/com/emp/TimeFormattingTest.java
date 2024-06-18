@@ -10,6 +10,7 @@ public class TimeFormattingTest {
     @Test
     public void normalFormatTest() {
         assertEquals("0:59", Time.formatMilliseconds(59000));
+        assertEquals("2:01", Time.formatMilliseconds(121000));
         assertEquals("59:59", Time.formatMilliseconds(3599000));
     }
 
