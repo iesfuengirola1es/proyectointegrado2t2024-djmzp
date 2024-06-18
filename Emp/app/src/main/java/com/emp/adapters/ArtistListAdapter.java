@@ -2,7 +2,6 @@ package com.emp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,18 +11,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.emp.AlbumActivity;
+import com.emp.ArtistActivity;
 import com.emp.R;
-import com.emp.models.Album;
+import com.emp.models.Artist;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.ViewHolder> {
+public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.ViewHolder> {
     private final Context context;
-    private final List<Album> albums;
+    private final ArrayList<Artist> artists;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private Album album;
+        private Artist artist;
 
         private final ImageView cover;
         private final TextView name;
@@ -35,28 +34,24 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
             this.name = view.findViewById(R.id.name);
         }
 
-        public Album getAlbum() {
-            return album;
+        public Artist getArtist() {
+            return artist;
         }
 
         public ImageView getCover() { return this.cover; }
         public TextView getName() { return this.name; }
 
-        public void setAlbum(Album album) {
-            this.album = album;
+        public void setArtist(Artist artist) {
+            this.artist = artist;
 
-            this.name.setText(this.album.name);
-
-            if(this.album.cover != null)
-                this.cover.setImageURI(Uri.parse(this.album.cover));
-            else
-                this.cover.setImageResource(R.drawable.ic_album_cover);
+            this.name.setText(this.artist.name);
+            this.cover.setImageResource(R.drawable.ic_person);
         }
     }
 
-    public AlbumListAdapter(Context context, List<Album> albums) {
+    public ArtistListAdapter(Context context, ArrayList<Artist> artists) {
         this.context = context;
-        this.albums = albums;
+        this.artists = artists;
     }
 
     @NonNull
@@ -65,22 +60,22 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.View
         final View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.album_list_item, parent, false);
 
-        return new AlbumListAdapter.ViewHolder(view);
+        return new ArtistListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Album album = this.albums.get(position);
-        holder.setAlbum(album);
+        final Artist artist = this.artists.get(position);
+        holder.setArtist(artist);
         holder.itemView.setOnClickListener(v -> {
-            final Intent in = new Intent(this.context, AlbumActivity.class);
-            in.putExtra("albumId", album.msId);
+            final Intent in = new Intent(this.context, ArtistActivity.class);
+            in.putExtra("artistId", artist.msId);
             this.context.startActivity(in);
         });
     }
 
     @Override
     public int getItemCount() {
-        return this.albums.size();
+        return this.artists.size();
     }
 }

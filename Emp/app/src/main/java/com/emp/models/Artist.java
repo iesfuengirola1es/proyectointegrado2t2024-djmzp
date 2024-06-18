@@ -13,7 +13,7 @@ public class Artist implements Model {
     public static final String SQL_CREATE_TABLE =
         "CREATE TABLE " + Artist.TABLE_NAME + "(" +
             Artist.COLUMN_ID + " INTEGER PRIMARY KEY," +
-            Artist.COLUMN_MS_ID + " INTEGER UNIQUE NOT NULL," +
+            Artist.COLUMN_MS_ID + " INTEGER NOT NULL," +
             Artist.COLUMN_NAME + " TEXT," +
             Artist.COLUMN_IMAGE + " TEXT" +
         ")";

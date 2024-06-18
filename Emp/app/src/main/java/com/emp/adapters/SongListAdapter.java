@@ -1,6 +1,5 @@
 package com.emp.adapters;
 
-import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,37 +10,35 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.emp.Emp;
 import com.emp.R;
 import com.emp.models.Song;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
-    private final ArrayList<Song> songs;
-    private View.OnClickListener onClickListener;
+    private final List<Song> songs;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView cover;
-        private final TextView title;
+        private ImageView cover;
+        private TextView title;
+        private TextView artist;
 
         public ViewHolder(View view) {
             super(view);
 
             this.cover = view.findViewById(R.id.cover);
             this.title = view.findViewById(R.id.title);
+            this.artist = view.findViewById(R.id.artist);
         }
 
-        public ImageView getCover() {
-            return this.cover;
-        }
-        public TextView getTitle() {
-            return this.title;
-        }
+        public ImageView getCover() { return this.cover; }
+        public TextView getTitle() { return this.title; }
+        public TextView getArtist() { return this.artist; }
     }
 
-    public SongListAdapter(ArrayList<Song> songs, View.OnClickListener listener) {
+    public SongListAdapter(List<Song> songs) {
         this.songs = songs;
-        this.onClickListener = listener;
     }
 
     @NonNull
@@ -50,19 +47,23 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
         final View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.song_list_item, viewGroup, false);
 
-        view.setOnClickListener(this.onClickListener);
-
         return new SongListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Song song = this.songs.get(position);
-
         if(song.cover != null)
             holder.getCover().setImageURI(Uri.parse(song.cover));
 
         holder.getTitle().setText(song.title);
+        holder.getArtist().setText(song.artist);
+
+        holder.itemView.setOnClickListener(v -> {
+            Emp.getPlayer().enqueue(song);
+            Emp.getPlayer().next();
+            Emp.getPlayer().play();
+        });
     }
 
     @Override

@@ -17,7 +17,7 @@ public class Album implements Model {
     public static final String SQL_CREATE_TABLE =
         "CREATE TABLE " + Album.TABLE_NAME + "(" +
             Album.COLUMN_ID + " INTEGER PRIMARY KEY," +
-            Album.COLUMN_MS_ID + " INTEGER UNIQUE NOT NULL," +
+            Album.COLUMN_MS_ID + " INTEGER NOT NULL," +
             Album.COLUMN_NAME + " TEXT," +
             Album.COLUMN_ARTIST + " TEXT," +
             Album.COLUMN_ARTIST_ID + " INTEGER REFERENCES " + Artist.TABLE_NAME + "(" + Artist.COLUMN_MS_ID + ")," +

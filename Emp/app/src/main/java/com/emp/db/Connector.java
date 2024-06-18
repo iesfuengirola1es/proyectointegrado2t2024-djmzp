@@ -108,7 +108,7 @@ public class Connector {
             final int msIdIdx = cursor.getColumnIndex(MediaStore.Audio.Albums._ID);
             final int nameIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM);
             final int artistIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST);
-            // final int artistIdIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST_ID);
+            final int artistIdIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST_ID);
             final int firstYearIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.FIRST_YEAR);
             final int lastYearIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.LAST_YEAR);
             final int coverIdx = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
@@ -124,6 +124,7 @@ public class Connector {
             values.put(Album.COLUMN_MS_ID, cursor.getLong(msIdIdx));
             values.put(Album.COLUMN_NAME, nameIdx < 0 ? Album.UNKNOWN : cursor.getString(nameIdx));
             values.put(Album.COLUMN_ARTIST, artistIdx < 0 ? Artist.UNKNOWN : cursor.getString(artistIdx));
+            values.put(Album.COLUMN_ARTIST_ID, artistIdIdx);
             values.put(Album.COLUMN_ARTIST_ID, -1);
             values.put(Album.COLUMN_YEAR, year);
             values.put(Album.COLUMN_COVER, coverIdx < 0 ? null : cursor.getString(coverIdx));

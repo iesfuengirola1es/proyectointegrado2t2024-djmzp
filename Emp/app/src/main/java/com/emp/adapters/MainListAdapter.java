@@ -70,19 +70,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final Context ctx = parent.getContext();
         final LayoutInflater inflater = LayoutInflater.from(ctx);
-/*
-        if(viewType > MainListAdapter.SONGS_TITLE_INDEX) {
-            final View view = inflater.inflate(R.layout.song_list_item, parent, false);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
-
-            return new MainListAdapter.ViewHolder(view);
-        }
-  */
         View view;
         switch(viewType) {
             case MainListAdapter.ARTISTS_TITLE_INDEX:
@@ -101,7 +89,7 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
                 final LinearLayoutManager artistsManager = new LinearLayoutManager(ctx);
                 artistsManager.setOrientation(RecyclerView.HORIZONTAL);
                 ((RecyclerView) view).setLayoutManager(artistsManager);
-                ((RecyclerView) view).setAdapter(new AlbumListAdapter(this.context, this.albums));
+                ((RecyclerView) view).setAdapter(new ArtistListAdapter(this.context, this.artists));
 
                 this.artistList = (RecyclerView) view;
                 break;

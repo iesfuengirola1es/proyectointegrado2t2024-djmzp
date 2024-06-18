@@ -70,6 +70,11 @@ public class Player {
         } catch(IOException | IllegalStateException ignored) {}
     }
 
+    private Song getPreviousSong() {
+        // if(this.history != null && this.history.index > )
+        return null;
+    }
+
     private Song getNextSong() {
         if(!this.queue.isEmpty())
             return this.queue.remove();

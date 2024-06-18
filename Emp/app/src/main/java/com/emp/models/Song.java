@@ -18,7 +18,7 @@ public class Song implements Model {
     public static final String SQL_CREATE_TABLE =
         "CREATE TABLE " + Song.TABLE_NAME + "(" +
             Song.COLUMN_ID + " INTEGER PRIMARY KEY," +
-            Song.COLUMN_MS_ID + " INTEGER UNIQUE NOT NULL," +
+            Song.COLUMN_MS_ID + " INTEGER NOT NULL," +
             Song.COLUMN_TITLE + " TEXT," +
             Song.COLUMN_ARTIST + " TEXT," +
             Song.COLUMN_ARTIST_ID + " INTEGER REFERENCES " + Artist.TABLE_NAME + "(" + Artist.COLUMN_MS_ID + ")," +
