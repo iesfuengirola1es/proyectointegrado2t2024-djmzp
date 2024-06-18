@@ -1,8 +1,15 @@
 package com.emp;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PackageManagerCompat;
 
 import com.emp.audio.Player;
 import com.emp.db.Connector;
@@ -16,8 +23,14 @@ import java.util.ArrayList;
 public class Emp extends Application {
     public static final String TAG = "EMP";
 
+    public static final String[] PERMISSIONS = {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
     private static SQLiteDatabase db;
     private static Player player;
+
+    private static Context context;
 
     private static ArrayList<Artist> artists;
     private static ArrayList<Album> albums;
@@ -26,7 +39,11 @@ public class Emp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Emp.db = new LocalDatabaseHelper(this.getApplicationContext()).getWritableDatabase();
+        Emp.context = this.getApplicationContext();
+    }
+
+    public static void init() {
+        Emp.db = new LocalDatabaseHelper(Emp.context).getWritableDatabase();
 
         // TODO remove this, use the service only
         Emp.player = new Player();

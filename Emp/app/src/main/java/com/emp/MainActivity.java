@@ -3,14 +3,14 @@ package com.emp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.AudioFormat;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,32 +20,10 @@ import android.widget.TextView;
 import com.emp.adapters.MainListAdapter;
 import com.emp.audio.Player;
 import com.emp.audio.PlayerCallback;
-import com.emp.db.Connector;
 import com.emp.models.Album;
 import com.emp.models.Artist;
 import com.emp.models.Song;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-/*
-import org.schabi.newpipe.extractor.Extractor;
-import org.schabi.newpipe.extractor.Image;
-import org.schabi.newpipe.extractor.InfoItem;
-import org.schabi.newpipe.extractor.NewPipe;
-import org.schabi.newpipe.extractor.ServiceList;
-import org.schabi.newpipe.extractor.StreamingService;
-import org.schabi.newpipe.extractor.downloader.Downloader;
-import org.schabi.newpipe.extractor.downloader.Request;
-import org.schabi.newpipe.extractor.downloader.Response;
-import org.schabi.newpipe.extractor.exceptions.ExtractionException;
-import org.schabi.newpipe.extractor.exceptions.ParsingException;
-import org.schabi.newpipe.extractor.exceptions.ReCaptchaException;
-import org.schabi.newpipe.extractor.services.youtube.YoutubeService;
-import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeStreamExtractor;
-import org.schabi.newpipe.extractor.stream.AudioStream;
-import org.schabi.newpipe.extractor.stream.StreamExtractor;
-import org.schabi.newpipe.extractor.stream.StreamType;
-import org.schabi.newpipe.extractor.stream.VideoStream;
-*/
 
 import java.util.ArrayList;
 
@@ -65,13 +43,6 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
 
     private Player player;
 
-    private int getChannelMask(int channels) {
-        if(channels == 1)
-            return AudioFormat.CHANNEL_OUT_MONO;
-
-        return AudioFormat.CHANNEL_OUT_STEREO;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +57,17 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
         this.title = this.floatingControls.findViewById(R.id.title);
         this.artist = this.floatingControls.findViewById(R.id.artist);
 
+        this.bottomNavigationView = this.findViewById(R.id.navbar);
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, Emp.PERMISSIONS, MainActivity.STORAGE_REQUEST_CODE);
+        } else {
+            Emp.init();
+            this.init();
+        }
+    }
+
+    private void init() {
         this.player = Emp.getPlayer();
 
         this.play.setOnClickListener(v -> this.player.playPause());
@@ -125,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
             }
         });
 
-        this.bottomNavigationView = this.findViewById(R.id.navbar);
         this.bottomNavigationView.setSelectedItemId(R.id.action_library);
         this.bottomNavigationView.setOnItemSelectedListener(item -> {
             final int id = item.getItemId();
@@ -149,7 +130,8 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == MainActivity.STORAGE_REQUEST_CODE && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+            Emp.init();
+            this.init();
         }
     }
 
