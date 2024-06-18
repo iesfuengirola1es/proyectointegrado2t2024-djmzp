@@ -37,6 +37,15 @@ public class Player {
             Player.this.play();
         });
 
+        this.main.setOnErrorListener((mp, what, extra) -> {
+            this.main.reset();
+            try {
+                this.main.setDataSource(this.currentSong.url);
+                this.main.prepare();
+            } catch(IOException ignored) {}
+            return false;
+        });
+
         this.main.setOnPreparedListener(mp -> Player.this.isPrepared = true);
 
         this.currentSong = null;

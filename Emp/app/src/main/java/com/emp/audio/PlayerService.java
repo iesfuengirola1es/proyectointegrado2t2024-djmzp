@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.media.MediaSession2Service;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
 import android.os.Binder;
@@ -14,7 +15,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 
 import com.emp.R;
 
-public class PlayerService extends Service implements MediaPlayer.OnCompletionListener {
+public class PlayerService extends Service {
     private final IBinder binder = new LocalBinder();
     private Player player;
 
@@ -37,8 +38,6 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
     public void onCreate() {
         super.onCreate();
         this.player = new Player();
-        final MediaPlayer mediaPlayer = player.getMediaPlayer();
-        mediaPlayer.setOnCompletionListener(this);
 
         this.mediaSessionManager = (MediaSessionManager) this.getSystemService(Context.MEDIA_SESSION_SERVICE);
         this.mediaSession = new MediaSessionCompat(this.getApplicationContext(), this.getResources().getString(R.string.app_name));
@@ -66,10 +65,5 @@ public class PlayerService extends Service implements MediaPlayer.OnCompletionLi
                 // PlayerService.this.player.next();
             }
         });
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-
     }
 }
