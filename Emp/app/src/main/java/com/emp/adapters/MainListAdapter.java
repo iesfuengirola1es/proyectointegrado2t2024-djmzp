@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -138,6 +140,22 @@ public class MainListAdapter extends RecyclerView.Adapter<MainListAdapter.ViewHo
 
         holder.getTitle().setText(song.title);
         holder.getArtist().setText(song.artist);
+
+        holder.itemView.setOnLongClickListener(v -> {
+            final PopupMenu menu = new PopupMenu(MainListAdapter.this.context, holder.itemView);
+            menu.getMenuInflater().inflate(R.menu.more_menu, menu.getMenu());
+            menu.setOnMenuItemClickListener(item -> {
+                if(item.getItemId() == R.id.queue) {
+                    Emp.getPlayer().enqueue(song);
+                    return true;
+                }
+
+                return false;
+            });
+
+            menu.show();
+            return true;
+        });
 
         holder.itemView.setOnClickListener(v -> {
             Emp.getPlayer().enqueue(song);

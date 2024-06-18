@@ -1,19 +1,23 @@
 package com.emp.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.emp.Emp;
 import com.emp.R;
 import com.emp.models.Song;
 
 import java.util.List;
 
 public class SongListAlbumAdapter extends RecyclerView.Adapter<SongListAlbumAdapter.ViewHolder> {
+    private Context context;
     private final List<Song> songs;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +39,8 @@ public class SongListAlbumAdapter extends RecyclerView.Adapter<SongListAlbumAdap
         }
     }
 
-    public SongListAlbumAdapter(List<Song> songs) {
+    public SongListAlbumAdapter(Context context, List<Song> songs) {
+        this.context = context;
         this.songs = songs;
     }
 
@@ -54,6 +59,28 @@ public class SongListAlbumAdapter extends RecyclerView.Adapter<SongListAlbumAdap
 
         holder.getTrack().setText(song.number < 0 ? "#" : Integer.toString(song.number));
         holder.getTitle().setText(song.title);
+
+        holder.itemView.setOnLongClickListener(v -> {
+            final PopupMenu menu = new PopupMenu(SongListAlbumAdapter.this.context, holder.itemView);
+            menu.getMenuInflater().inflate(R.menu.more_menu, menu.getMenu());
+            menu.setOnMenuItemClickListener(item -> {
+                if(item.getItemId() == R.id.queue) {
+                    Emp.getPlayer().enqueue(song);
+                    return true;
+                }
+
+                return false;
+            });
+
+            menu.show();
+            return true;
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            Emp.getPlayer().enqueue(song);
+            Emp.getPlayer().next();
+            Emp.getPlayer().play();
+        });
     }
 
     @Override

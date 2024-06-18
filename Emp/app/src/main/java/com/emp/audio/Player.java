@@ -3,21 +3,22 @@ package com.emp.audio;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.util.Log;
 
+import com.emp.Emp;
 import com.emp.models.Playlist;
 import com.emp.models.Song;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
+import java.util.Stack;
 
 public class Player {
     private Song currentSong;
 
     private MediaPlayer main;
-    private Queue<Song> queue;
-    private Playlist history;
+    private Stack<Song> queue;
+    private Stack<Song> history;
     private Playlist playlist;
 
     private boolean isPrepared;
@@ -26,44 +27,66 @@ public class Player {
 
     public Player() {
         this.main = new MediaPlayer();
-        final AudioAttributes attr = new AudioAttributes.Builder()
+        this.main.setAudioAttributes(new AudioAttributes.Builder()
                 .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                .build();
-        this.main.setAudioAttributes(attr);
+                .build());
+
         this.main.setOnCompletionListener(mp -> {
             Player.this.isPrepared = false;
             Player.this.next();
+            Player.this.play();
         });
+
+        this.main.setOnPreparedListener(mp -> Player.this.isPrepared = true);
 
         this.currentSong = null;
         this.isPrepared = false;
 
         this.clients = new ArrayList<>();
-        this.queue = new ArrayDeque<>();
+        this.queue = new Stack<>();
+        this.history = new Stack<>();
     }
 
     public void enqueue(Song song) {
-        this.queue.offer(song);
+        this.queue.push(song);
     }
 
     public void prev() {
+        final Song previousSong = this.getPreviousSong();
+        if(previousSong == null || previousSong.url == null)
+            return;
 
+        try {
+            this.main.stop();
+            this.main.reset();
+            this.main.setDataSource(previousSong.url);
+            this.main.prepare();
+
+            this.queue.push(this.currentSong);
+            this.currentSong = previousSong;
+            this.isPrepared = true;
+
+            for(PlayerCallback client: this.clients) {
+                client.onSongChanged(this.currentSong);
+            }
+        } catch(IOException | IllegalStateException ignored) {}
     }
 
     public void next() {
-        this.pause();
-        this.main.reset();
-
         final Song nextSong = this.getNextSong();
         if(nextSong == null || nextSong.url == null)
             return;
 
         try {
+            this.main.stop();
+            this.main.reset();
             this.main.setDataSource(nextSong.url);
             this.main.prepare();
 
+            this.history.push(this.currentSong);
             this.currentSong = nextSong;
             this.isPrepared = true;
+
             for(PlayerCallback client: this.clients) {
                 client.onSongChanged(this.currentSong);
             }
@@ -71,13 +94,15 @@ public class Player {
     }
 
     private Song getPreviousSong() {
-        // if(this.history != null && this.history.index > )
+        if(this.history != null && !this.history.empty())
+            return this.history.pop();
+
         return null;
     }
 
     private Song getNextSong() {
         if(!this.queue.isEmpty())
-            return this.queue.remove();
+            return this.queue.pop();
 
         if(this.playlist != null && this.playlist.index > 0)
             return this.playlist.songs.get(++this.playlist.index);
@@ -104,16 +129,19 @@ public class Player {
     }
 
     public void play() {
-        if(!this.main.isPlaying())
+        if(this.isPrepared && !this.main.isPlaying())
             this._play();
     }
 
     public void pause() {
-        if(this.main.isPlaying())
+        if(this.isPrepared && this.main.isPlaying())
             this._pause();
     }
 
     public void playPause() {
+        if(!this.isPrepared)
+            return;
+
         if(this.main.isPlaying())
             this._pause();
         else

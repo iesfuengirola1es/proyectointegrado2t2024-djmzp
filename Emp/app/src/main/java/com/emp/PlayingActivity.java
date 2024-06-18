@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -36,8 +34,6 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
     private TextView time;
     private TextView duration;
 
-    private GestureDetector gestureDetector;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +53,16 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
 
         this.player = Emp.getPlayer();
 
-        this.prev.setOnClickListener(v -> PlayingActivity.this.player.prev());
-        this.next.setOnClickListener(v -> PlayingActivity.this.player.next());
+        this.prev.setOnClickListener(v -> {
+            PlayingActivity.this.player.prev();
+            PlayingActivity.this.player.play();
+        });
+
+        this.next.setOnClickListener(v -> {
+            PlayingActivity.this.player.next();
+            PlayingActivity.this.player.play();
+        });
+
         this.play.setOnClickListener(v -> PlayingActivity.this.player.playPause());
 
         this.onPlaybackPlayPaused(this.player.isPlaying());
@@ -85,15 +89,6 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
             @Override public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override public void onStopTrackingTouch(SeekBar seekBar) { }
         });
-
-        /*
-        this.gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                return Math.abs(e2.getY() - e1.getY()) > 100;
-            }
-        });
-         */
     }
 
     @Override
@@ -118,9 +113,4 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
 
         this.title.setText(song.title);
     }
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // return this.gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
-    }*/
 }

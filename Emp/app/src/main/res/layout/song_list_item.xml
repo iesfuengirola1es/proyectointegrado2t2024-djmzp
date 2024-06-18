@@ -4,10 +4,10 @@
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:padding="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
     android:clickable="true"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="80dp" >
 
     <androidx.cardview.widget.CardView
         android:layout_width="56dp"
@@ -44,11 +44,4 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-    <ImageButton
-        android:src="@drawable/ic_more_vert"
-        android:background="@android:color/transparent"
-        android:layout_width="48dp"
-        android:layout_height="48dp" />
-
 </LinearLayout>

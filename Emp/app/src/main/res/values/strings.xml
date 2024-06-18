@@ -15,4 +15,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="refresh_database">Sync MediaStore database</string>
+
+    <string name="queue">Queue</string>
 </resources>

@@ -44,7 +44,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         final List<Song> songs = Emp.getSongs().stream().filter(s -> s.albumId == albumId).collect(Collectors.toList());
 
-        final SongListAlbumAdapter adapter = new SongListAlbumAdapter(songs);
+        final SongListAlbumAdapter adapter = new SongListAlbumAdapter(this, songs);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(RecyclerView.VERTICAL);
 
