@@ -80,7 +80,6 @@ Ordenador con SO compatible con Android Studio.
 Teléfono Android con versión compatible con las librerías usadas.
 
 ## Diseño de la solución software
-### Modelado casos de uso
 
 ### Prototipado gráfico
 #### Wireframe
@@ -101,15 +100,6 @@ Teléfono Android con versión compatible con las librerías usadas.
 
 ## Modelo lógico
 ![lg](/res/img/db/LG.png)
-
-## Implementación
-...
-
-## Documentación
-...
-
-## Conclusiones
-...
 
 ## Bibliografía
 ffmpeg - https://ffmpeg.org/   

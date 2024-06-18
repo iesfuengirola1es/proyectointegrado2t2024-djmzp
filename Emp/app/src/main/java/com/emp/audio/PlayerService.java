@@ -3,8 +3,6 @@ package com.emp.audio;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.MediaSession2Service;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
 import android.os.Binder;
