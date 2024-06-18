@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
     private TextView artist;
     private LinearLayout clickableArea;
 
+    private BottomNavigationView bottomNavigationView;
+
     private Player player;
 
     private int getChannelMask(int channels) {
@@ -123,26 +125,23 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
             }
         });
 
-        BottomNavigationView bottomNavigationView = this.findViewById(R.id.navbar);
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                final int id = item.getItemId();
+        this.bottomNavigationView = this.findViewById(R.id.navbar);
+        this.bottomNavigationView.setSelectedItemId(R.id.action_library);
+        this.bottomNavigationView.setOnItemSelectedListener(item -> {
+            final int id = item.getItemId();
 
-                Intent in;
-                if(id == R.id.action_playlist) {
-                    in = new Intent(MainActivity.this, PlayingActivity.class);
-                } else if(id == R.id.action_settings) {
-                    in = new Intent(MainActivity.this, SettingsActivity.class);
-                } else {
-                    return true;
-                    // in = new Intent(MainActivity.this, MainActivity.class);
-                }
-
-                MainActivity.this.startActivity(in);
-
+            Intent in;
+            if(id == R.id.action_playlist) {
+                in = new Intent(MainActivity.this, PlaylistActivity.class);
+            } else if(id == R.id.action_settings) {
+                in = new Intent(MainActivity.this, SettingsActivity.class);
+            } else {
                 return true;
             }
+
+            MainActivity.this.startActivity(in);
+
+            return true;
         });
     }
 
