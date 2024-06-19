@@ -39,16 +39,15 @@ public class SettingsActivity extends AppCompatActivity {
             final int id = item.getItemId();
 
             Intent in;
-            if(id == R.id.action_playlist) {
-                in = new Intent(SettingsActivity.this, PlaylistActivity.class);
-            } else if(id == R.id.action_settings) {
-                return true;
-            } else {
+            if(id == R.id.action_library) {
                 in = new Intent(SettingsActivity.this, MainActivity.class);
+            } else if(id == R.id.action_playing) {
+                in = new Intent(SettingsActivity.this, PlayingActivity.class);
+            } else {
+                return true;
             }
 
             SettingsActivity.this.startActivity(in);
-
             return true;
         });
     }

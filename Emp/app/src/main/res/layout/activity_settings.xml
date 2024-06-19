@@ -13,9 +13,10 @@
 
         <TextView
             android:id="@+id/refresh_database"
-            android:layout_margin="10dp"
-            android:textSize="24sp"
+            android:padding="10dp"
+            android:textSize="18sp"
             android:text="@string/refresh_database"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:clickable="true"

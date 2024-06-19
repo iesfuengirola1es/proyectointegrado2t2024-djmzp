@@ -27,12 +27,12 @@ public class PlaylistActivity extends AppCompatActivity {
         this.playlists = this.findViewById(R.id.playlists);
 
         this.bottomNavigationView = this.findViewById(R.id.navbar);
-        this.bottomNavigationView.setSelectedItemId(R.id.action_playlist);
+        this.bottomNavigationView.setSelectedItemId(R.id.action_library);
         this.bottomNavigationView.setOnItemSelectedListener(item -> {
             final int id = item.getItemId();
 
             Intent in;
-            if(id == R.id.action_playlist) {
+            if(id == R.id.action_library) {
                 return true;
             } else if(id == R.id.action_settings) {
                 in = new Intent(PlaylistActivity.this, SettingsActivity.class);

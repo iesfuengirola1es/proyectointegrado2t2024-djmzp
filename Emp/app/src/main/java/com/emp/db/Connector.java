@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Connector {
-    public static final int ALL = -1;
-
     private static final String[] ARTISTS_PROJECTION = {
             MediaStore.Audio.Artists._ID,
             MediaStore.Audio.Artists.ARTIST,
@@ -30,7 +28,7 @@ public class Connector {
             MediaStore.Audio.Albums._ID,
             MediaStore.Audio.Albums.ALBUM,
             MediaStore.Audio.Albums.ARTIST,
-            // MediaStore.Audio.Albums.ARTIST_ID,
+            MediaStore.Audio.Albums.ARTIST_ID,
             MediaStore.Audio.Albums.FIRST_YEAR,
             MediaStore.Audio.Albums.LAST_YEAR,
             MediaStore.Audio.Albums.ALBUM_ART,
@@ -325,7 +323,33 @@ public class Connector {
     }
 
     public static ArrayList<Playlist> getPlaylists() {
-        return null;
+        final ArrayList<Playlist> playlists = new ArrayList<>();
+
+        final Playlist main = new Playlist();
+        main.id = 0;
+        main.name = "Main";
+        main.songs = Emp.getSongs();
+        main.created = 0;
+        main.index = 0;
+        playlists.add(main);
+
+        final Playlist rapido = new Playlist();
+        rapido.id = 1;
+        rapido.name = "Rápido";
+        rapido.songs = Emp.getSongs();
+        rapido.created = 0;
+        rapido.index = 0;
+        playlists.add(rapido);
+
+        final Playlist rock = new Playlist();
+        rock.id = 1;
+        rock.name = "Rock";
+        rock.songs = Emp.getSongs();
+        rock.created = 0;
+        rock.index = 0;
+        playlists.add(rock);
+
+        return playlists;
     }
 
     /*

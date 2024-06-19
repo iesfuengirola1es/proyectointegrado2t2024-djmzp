@@ -2,6 +2,7 @@ package com.emp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageButton;
@@ -14,6 +15,7 @@ import com.emp.audio.PlayerCallback;
 import com.emp.models.Artist;
 import com.emp.models.Song;
 import com.emp.utils.Time;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +36,8 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
     private TextView time;
     private TextView duration;
 
+    private BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +54,8 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
         this.seekBar = this.findViewById(R.id.seek_bar);
         this.time = this.findViewById(R.id.time);
         this.duration = this.findViewById(R.id.duration);
+
+        this.bottomNavigationView = this.findViewById(R.id.navbar);
 
         this.player = Emp.getPlayer();
 
@@ -88,6 +94,23 @@ public class PlayingActivity extends AppCompatActivity implements PlayerCallback
 
             @Override public void onStartTrackingTouch(SeekBar seekBar) { }
             @Override public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+
+        this.bottomNavigationView.setSelectedItemId(R.id.action_playing);
+        this.bottomNavigationView.setOnItemSelectedListener(item -> {
+            final int id = item.getItemId();
+
+            Intent in;
+            if(id == R.id.action_library) {
+                in = new Intent(PlayingActivity.this, MainActivity.class);
+            } else if(id == R.id.action_playing) {
+                return true;
+            } else {
+                in = new Intent(PlayingActivity.this, SettingsActivity.class);
+            }
+
+            PlayingActivity.this.startActivity(in);
+            return true;
         });
     }
 

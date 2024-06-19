@@ -3,7 +3,6 @@ package com.emp.audio;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import com.emp.Emp;
 import com.emp.models.Playlist;
@@ -25,7 +24,7 @@ public class Player {
 
     private ArrayList<PlayerCallback> clients;
 
-    public Player() {
+    public Player(Playlist playList) {
         this.main = new MediaPlayer();
         this.main.setAudioAttributes(new AudioAttributes.Builder()
                 .setLegacyStreamType(AudioManager.STREAM_MUSIC)
@@ -38,7 +37,9 @@ public class Player {
         });
 
         this.main.setOnErrorListener((mp, what, extra) -> {
-            this.main.reset();
+            this.main.release();
+
+            this.main = new MediaPlayer();
             try {
                 this.main.setDataSource(this.currentSong.url);
                 this.main.prepare();
@@ -50,6 +51,8 @@ public class Player {
 
         this.currentSong = null;
         this.isPrepared = false;
+
+        this.playlist = playList;
 
         this.clients = new ArrayList<>();
         this.queue = new Stack<>();
@@ -113,7 +116,7 @@ public class Player {
         if(!this.queue.isEmpty())
             return this.queue.pop();
 
-        if(this.playlist != null && this.playlist.index > 0)
+        if(this.playlist != null && this.playlist.index >= 0)
             return this.playlist.songs.get(++this.playlist.index);
 
         return null;

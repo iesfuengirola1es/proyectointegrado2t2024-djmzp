@@ -16,9 +16,12 @@ import com.emp.db.Connector;
 import com.emp.db.LocalDatabaseHelper;
 import com.emp.models.Album;
 import com.emp.models.Artist;
+import com.emp.models.Playlist;
 import com.emp.models.Song;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 public class Emp extends Application {
     public static final String TAG = "EMP";
@@ -35,6 +38,7 @@ public class Emp extends Application {
     private static ArrayList<Artist> artists;
     private static ArrayList<Album> albums;
     private static ArrayList<Song> songs;
+    private static ArrayList<Playlist> playlists;
 
     @Override
     public void onCreate() {
@@ -45,12 +49,15 @@ public class Emp extends Application {
     public static void init() {
         Emp.db = new LocalDatabaseHelper(Emp.context).getWritableDatabase();
 
-        // TODO remove this, use the service only
-        Emp.player = new Player();
-
         Emp.artists = Connector.getArtists();
         Emp.albums = Connector.getAlbums(-1);
         Emp.songs = Connector.getSongs(-1, -1);
+        Emp.playlists = Connector.getPlaylists();
+
+        // TODO remove this, use the service only
+        final Playlist main = Emp.playlists.get(0);
+        Collections.shuffle(main.songs, new Random());
+        Emp.player = new Player(main);
     }
 
     public static Player getPlayer() {

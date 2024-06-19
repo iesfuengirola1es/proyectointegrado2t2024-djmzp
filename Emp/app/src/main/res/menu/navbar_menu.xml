@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_playlist"
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_library"
         android:title=""
         android:icon="@drawable/ic_playlists" />
 
-    <item android:id="@+id/action_library"
+    <item android:id="@+id/action_playing"
         android:title=""
         android:icon="@drawable/ic_library" />
 

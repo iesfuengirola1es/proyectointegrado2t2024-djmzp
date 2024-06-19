@@ -90,38 +90,20 @@ public class MainActivity extends AppCompatActivity implements PlayerCallback {
         this.mainList.setAdapter(adapter);
         this.mainList.setLayoutManager(layoutManager);
 
-        this.mainList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private boolean isUp = true;
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if(dy < -16 && !this.isUp) {
-                    searchBar.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_up));
-                    this.isUp = true;
-                } else if(dy > 0 && this.isUp) {
-                    searchBar.startAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_down));
-                    this.isUp = false;
-                }
-            }
-        });
-
         this.bottomNavigationView.setSelectedItemId(R.id.action_library);
         this.bottomNavigationView.setOnItemSelectedListener(item -> {
             final int id = item.getItemId();
 
             Intent in;
-            if(id == R.id.action_playlist) {
-                in = new Intent(MainActivity.this, PlaylistActivity.class);
-            } else if(id == R.id.action_settings) {
-                in = new Intent(MainActivity.this, SettingsActivity.class);
-            } else {
+            if(id == R.id.action_library) {
                 return true;
+            } else if(id == R.id.action_playing) {
+                in = new Intent(MainActivity.this, PlayingActivity.class);
+            } else {
+                in = new Intent(MainActivity.this, SettingsActivity.class);
             }
 
             MainActivity.this.startActivity(in);
-
             return true;
         });
     }

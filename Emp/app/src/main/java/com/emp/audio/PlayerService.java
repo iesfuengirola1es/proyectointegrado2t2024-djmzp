@@ -35,7 +35,6 @@ public class PlayerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        this.player = new Player();
 
         this.mediaSessionManager = (MediaSessionManager) this.getSystemService(Context.MEDIA_SESSION_SERVICE);
         this.mediaSession = new MediaSessionCompat(this.getApplicationContext(), this.getResources().getString(R.string.app_name));
