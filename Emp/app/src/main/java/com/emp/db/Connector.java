@@ -28,7 +28,7 @@ public class Connector {
             MediaStore.Audio.Albums._ID,
             MediaStore.Audio.Albums.ALBUM,
             MediaStore.Audio.Albums.ARTIST,
-            MediaStore.Audio.Albums.ARTIST_ID,
+            // MediaStore.Audio.Albums.ARTIST_ID,
             MediaStore.Audio.Albums.FIRST_YEAR,
             MediaStore.Audio.Albums.LAST_YEAR,
             MediaStore.Audio.Albums.ALBUM_ART,
